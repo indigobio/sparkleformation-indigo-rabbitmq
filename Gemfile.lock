@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/gswallow/sparkle-pack-aws-ebs-volumes.git
+  revision: e3c34d33de42f07520da1e295eb234798294cab2
+  specs:
+    sparkle-pack-aws-ebs-volumes (0.0.1)
+      aws-sdk-core (~> 2)
+
+GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-s3-buckets.git
   revision: c3f5761592f2373e0950a514964780740e02d708
   specs:
@@ -32,12 +39,6 @@ GIT
   specs:
     sparkle-pack-cfn-init-chef (0.0.4)
       sparkle_formation
-
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-aws-ebs-volumes
-  specs:
-    sparkle-pack-aws-ebs-volumes (0.0.1)
-      aws-sdk-core (~> 2)
 
 GEM
   remote: https://rubygems.org/

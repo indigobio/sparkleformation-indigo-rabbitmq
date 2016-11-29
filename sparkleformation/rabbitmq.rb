@@ -2,6 +2,8 @@ ENV['volume_count'] ||= '2'
 ENV['volume_size']  ||= '10'
 ENV['sg']           ||= 'private_sg'
 ENV['run_list']     ||= 'role[base],role[rabbitmq_server]'
+ENV['notification_topic'] ||= "#{ENV['org']}-#{ENV['environment']}-deregister-chef-node"
+
 
 SparkleFormation.new('rabbitmq').load(:base, :trusty_ami, :ssh_key_pair).overrides do
   set!('AWSTemplateFormatVersion', '2010-09-09')
