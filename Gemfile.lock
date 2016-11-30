@@ -1,9 +1,8 @@
 GIT
-  remote: https://github.com/gswallow/sparkle-pack-aws-ebs-volumes.git
-  revision: e3c34d33de42f07520da1e295eb234798294cab2
+  remote: https://github.com/gswallow/sparkle-pack-aws-instance-types.git
+  revision: fdb26f14169311915fc6eba63c7d2d300b55177e
   specs:
-    sparkle-pack-aws-ebs-volumes (0.0.1)
-      aws-sdk-core (~> 2)
+    sparkle-pack-aws-instance-types (0.0.1)
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-my-s3-buckets.git
@@ -35,10 +34,16 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-cfn-init-chef.git
-  revision: f85668bbbd538b19b692aab519045dfca97bc1f5
+  revision: 447062a81a6074c81addb7643c5b611ee2435af8
   specs:
     sparkle-pack-cfn-init-chef (0.0.4)
       sparkle_formation
+
+PATH
+  remote: /Users/gswallow/src/sparkle-pack-aws-ebs-volumes
+  specs:
+    sparkle-pack-aws-ebs-volumes (0.0.1)
+      aws-sdk-core (~> 2)
 
 GEM
   remote: https://rubygems.org/
@@ -47,7 +52,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     attribute_struct (0.3.4)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.6.26)
+    aws-sdk-core (2.6.29)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.0)
@@ -71,7 +76,7 @@ GEM
     colored (1.2)
     command_line_reporter (3.3.6)
       colored (>= 1.2)
-    domain_name (0.5.20161021)
+    domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     graph (2.8.2)
     hashdiff (0.2.3)
@@ -142,6 +147,7 @@ DEPENDENCIES
   sfn
   sparkle-pack-aws-availability-zones
   sparkle-pack-aws-ebs-volumes!
+  sparkle-pack-aws-instance-types!
   sparkle-pack-aws-my-s3-buckets!
   sparkle-pack-aws-my-security-groups!
   sparkle-pack-aws-my-sns-topics!

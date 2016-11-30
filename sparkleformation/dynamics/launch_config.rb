@@ -8,7 +8,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
-    allowed_values %w(t2.small m3.medium c3.large)
+    allowed_values registry!(:ec2_instance_types)
     default _config[:instance_type] || 't2.small'
   end
 
@@ -66,6 +66,25 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   # The number of block device mappings are coded into the json file.
   if _config.fetch(:volume_count, 0).to_i > 0
 
+    conditions.set!(
+      "#{_name}_volumes_are_io1".to_sym,
+      equals!(ref!("#{_name}_ebs_volume_type".to_sym), 'io1')
+    )
+
+    parameters("#{_name}_ebs_volume_type".to_sym) do
+      type 'String'
+      allowed_values ['gp2', 'io1']
+      default _config.fetch(:volume_type, 'gp2')
+      description 'EBS volume type: General Purpose (gp2) or Provisioned IOPS (io1).  Provisioned IOPS costs more.'
+    end
+
+    parameters("#{_name}_ebs_provisioned_iops".to_sym) do
+      type 'Number'
+      min_value '1'
+      max_value '4000'
+      default _config.fetch(:provisioned_iops, '300')
+    end
+
     parameters("#{_name}_ebs_volume_size".to_sym) do
       type 'Number'
       min_value '1'
@@ -82,7 +101,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     parameters("#{_name}_ebs_optimized".to_sym) do
       type 'String'
       allowed_values _array('true', 'false')
-      default _config[:ebs_optimized] || 'false'
+      default _config.fetch(:ebs_optimized, 'false')
       description 'Create an EBS-optimized instance (instance type restrictions and additional charges apply)'
     end
   end
@@ -97,8 +116,10 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
     security_groups _config[:security_groups]
     if _config.fetch(:volume_count, 0).to_i > 0
       block_device_mappings registry!(:ebs_volumes,
+                                      :io1_condition => "#{_name.capitalize}VolumesAreIo1",
                                       :volume_count => _config[:volume_count],
                                       :volume_size => ref!("#{_name}_ebs_volume_size".to_sym),
+                                      :provisioned_iops => ref!("#{_name}_ebs_provisioned_iops".to_sym),
                                       :delete_on_termination => ref!("#{_name}_delete_ebs_volume_on_termination".to_sym)
                                      )
       ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
