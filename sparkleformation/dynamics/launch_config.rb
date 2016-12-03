@@ -101,7 +101,9 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
                                     :delete_on_termination => ref!("#{_name}_delete_ebs_volume_on_termination".to_sym),
                                     :root_volume_size => ref!("#{_name}_root_volume_size".to_sym)
                           )
-    ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
+    if _config.fetch(:volume_count, 0).to_i > 0
+      ebs_optimized ref!("#{_name}_ebs_optimized".to_sym)
+    end
     user_data registry!(:user_data, _name,
                         :iam_role => ref!(_config[:iam_role]),
                         :launch_config => "#{_name.capitalize}AutoScalingLaunchConfiguration",
@@ -113,7 +115,7 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
            :chef_bucket => registry!(:my_s3_bucket, 'chef'),
            :chef_server => ref!(:chef_server),
            :chef_version => ref!(:chef_version),
-           :chef_run_list => ref!(:chef_run_list),
+           :chef_run_list => ref!("#{_name}_chef_run_list".to_sym),
            :iam_role => ref!(_config[:iam_role]),
            :chef_validation_client => ref!(:chef_validation_client_name),
            :chef_data_bag_secret => true
