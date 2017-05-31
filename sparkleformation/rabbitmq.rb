@@ -4,7 +4,7 @@ ENV['sg']                 ||= 'private_sg'
 ENV['chef_run_list']      ||= 'role[base],role[rabbitmq_server]'
 ENV['notification_topic'] ||= "#{ENV['org']}_#{ENV['environment']}_deregister_chef_node"
 
-SparkleFormation.new('rabbitmq').load(:base, :chef_base, :trusty_ami, :ssh_key_pair).overrides do
+SparkleFormation.new('rabbitmq').load(:base, :chef_base, :trusty_ami, :ssh_key_pair, :git_rev_outputs).overrides do
   set!('AWSTemplateFormatVersion', '2010-09-09')
   description <<"EOF"
 RabbitMQ EC2 instance, configured by Chef.  Route53 record: rabbitmq.#{ENV['private_domain']}.
